@@ -85,7 +85,7 @@ class AgentFunction {
 		for(int i=0;i<4;i++){
 			for(int j=0;j<4;j++){
 				System.out.println(i+","+j+": "+track[i][j]);
-				System.out.println(i+","+j+": "+visited[i][j]);
+				//System.out.println(i+","+j+": "+visited[i][j]);
 			}
 		}
 	}
@@ -146,9 +146,9 @@ class AgentFunction {
 			return actionTable[6];
 		}
 
-		if(breeze == true && agent_pos_x == 0 && agent_pos_y == 0){
-			return actionTable[0];
-		}
+//		if(breeze == true && agent_pos_x == 0 && agent_pos_y == 0){
+//			return actionTable[0];
+//		}
 
 		if(bump == true && breezeFlag == 0){
 			if(dir == "East"){
@@ -174,10 +174,21 @@ class AgentFunction {
 				dir = "North";
 				return actionTable[4];
 			}
+			if(dir == "North"){
+				dir = "East";
+				return actionTable[4];
+			}
+			if(dir == "East"){
+				dir = "South";
+				return actionTable[4];
+			}
+			if(dir == "South"){
+				dir = "West";
+				return actionTable[4];
+			}
 		}
 
 		if(scream == true){
-			ShootFlag = "Wumpus Killed";
 			moveForwardUpdate(dir);
 			return actionTable[1];
 		}
@@ -188,16 +199,40 @@ class AgentFunction {
 		}
 
 		if(breezeFlag == 1){
-			if(dir == "West" && visited[agent_pos_x-1][agent_pos_y] == 1){
-				moveForwardUpdate(dir);
-				return actionTable[1];
+			if(agent_pos_x-1 >= 0){
+				if(dir == "West" && visited[agent_pos_x-1][agent_pos_y] == 1){
+					moveForwardUpdate(dir);
+					return actionTable[1];
+				}
 			}
+
+			if(agent_pos_y-1 >=0){
+				if(dir == "South" && visited[agent_pos_x][agent_pos_y-1] == 1){
+					moveForwardUpdate(dir);
+					return actionTable[1];
+				}
+			}
+
+			if(agent_pos_x+1 <=3){
+				if(dir == "East" && visited[agent_pos_x+1][agent_pos_y] == 1){
+					moveForwardUpdate(dir);
+					return actionTable[1];
+				}
+			}
+
+			if(agent_pos_y+1 <=3){
+				if(dir == "North" && visited[agent_pos_x][agent_pos_y+1] == 1){
+					moveForwardUpdate(dir);
+					return actionTable[1];
+				}
+			}
+
 		}
 
 		if(breeze == true && stench != true){
 			if(dir == "East"){
 				breezeFlag = 1;
-				UpdateNotSafe(dir);
+				//UpdateNotSafe(dir);
 				dir = "North";
 				return actionTable[5];
 			}
@@ -219,15 +254,7 @@ class AgentFunction {
 		}
 
 		if(stench == true && breeze!=true){
-			if(ShootFlag == "Not Yet"){
-				ShootFlag = "Arrow";
-				return actionTable[7];
-			}
-			if(ShootFlag != "Wumpus Killed"){
-				ShootFlag = "Not Yet";
-				moveForwardUpdate(dir);
-				return actionTable[1];
-			}
+			return actionTable[7];
 		}
 		
 		// return action to be performed
