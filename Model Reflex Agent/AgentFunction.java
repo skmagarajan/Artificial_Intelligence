@@ -111,14 +111,27 @@ class AgentFunction extends Model{
 			}
 		}
 
-		if(stench == true && breeze != true){
+		if(stench == true && breeze != true && model.ShootFlag == "Not Yet"){
 			if(model.checkSafeZone()){
 				model.updateLocation(model.direction);
 				return actionTable[1];
 			}
+			else{
+				model.ShootFlag = "Shot";
+				return actionTable[7];
+			}
 		}
 
+		if(model.ShootFlag == "Shot" && scream == true){
+			model.ShootFlag = "Wumpus Killed";
+			model.updateLocation(model.direction);
+			return actionTable[1];
+		}
 
+		if(model.ShootFlag == "Wumpus Killed"){
+			model.updateLocation(model.direction);
+			return actionTable[1];
+		}
 
 		// return no action to be performed
 	    return actionTable[0];

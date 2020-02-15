@@ -225,7 +225,6 @@ public class Model {
             }
     }
 
-
     protected void AgentLocation(){
         System.out.println("Agent LOc: "+agent_pos_x+agent_pos_y);
     }
