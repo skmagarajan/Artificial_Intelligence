@@ -6,7 +6,6 @@ public class Model {
     protected double world[][] = new double[4][4];       //World State are preserved here
     protected String direction = "East";            //Initial Direction of Agent Facing
     protected String ShootFlag = "Not Yet";
-
     HashMap<Integer, List<Integer>> FindingPits = new HashMap<Integer, List<Integer>>();
 
     protected void updateLocation(String dir){
